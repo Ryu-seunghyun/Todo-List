@@ -54,7 +54,7 @@ func (t *TodoRepository) FindByTodoId(todoId string) (domain.Todo, error) {
 		return domain.Todo{}, err
 	}
 	// Not found resource
-	if todo.ID == 0 {
+	if todo.ID == "" {
 		return domain.Todo{}, errors.New("not found")
 	}
 	return todo, nil
@@ -66,7 +66,7 @@ func (t *TodoRepository) FindDeletedByTodoId(todoId string) (domain.Todo, error)
 		return domain.Todo{}, err
 	}
 	// Not found resource
-	if todo.ID == 0 {
+	if todo.ID == "" {
 		return domain.Todo{}, errors.New("not found")
 	}
 	return todo, nil

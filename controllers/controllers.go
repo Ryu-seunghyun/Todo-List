@@ -3,14 +3,14 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/Ryu-seunghyun/Todo-List/model/domain"
+	"github.com/Ryu-seunghyun/Todo-List/model/dto"
 	"github.com/gin-gonic/gin"
 )
 
 var err error
 
 func (h *Handler) ListTodos(ctx *gin.Context) {
-	var todos []domain.Todo
+	var todos []dto.Todo
 	todos, err = h.Services.Todos.List(ctx)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
@@ -20,7 +20,7 @@ func (h *Handler) ListTodos(ctx *gin.Context) {
 }
 
 func (h *Handler) GetTodo(ctx *gin.Context) {
-	var todo domain.Todo
+	var todo dto.Todo
 	id := ctx.Param("item_id")
 	todo, err = h.Services.Todos.GetByTodoId(ctx, id)
 	if err != nil {
@@ -31,7 +31,7 @@ func (h *Handler) GetTodo(ctx *gin.Context) {
 }
 
 func (h *Handler) CreateTodo(ctx *gin.Context) {
-	var t domain.Todo
+	var t dto.Todo
 	if err := ctx.ShouldBindJSON(&t); err != nil {
 		ctx.JSON(http.StatusBadRequest, "잘못된 요청입니다.")
 		return
@@ -40,7 +40,7 @@ func (h *Handler) CreateTodo(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, "Description 값을 입력하지 않았습니다.")
 		return
 	}
-	var todo domain.Todo
+	var todo dto.Todo
 	todo, err = h.Services.Todos.Create(ctx, t)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
@@ -50,7 +50,7 @@ func (h *Handler) CreateTodo(ctx *gin.Context) {
 }
 
 func (h *Handler) UpdateTodo(ctx *gin.Context) {
-	var t, ori domain.Todo
+	var t, ori dto.Todo
 	id := ctx.Param("item_id")
 	ori, err = h.Services.Todos.GetByTodoId(ctx, id)
 	if err != nil {
@@ -71,7 +71,7 @@ func (h *Handler) UpdateTodo(ctx *gin.Context) {
 		return
 	}
 
-	var todo domain.Todo
+	var todo dto.Todo
 	todo, err = h.Services.Todos.Update(ctx, id, t)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
@@ -81,15 +81,11 @@ func (h *Handler) UpdateTodo(ctx *gin.Context) {
 }
 
 func (h *Handler) DeleteTodo(ctx *gin.Context) {
-	var t domain.Todo
+	var t dto.Todo
 	id := ctx.Param("item_id")
 	t, err = h.Services.Todos.GetDeletedByTodoId(ctx, id)
-	if err != nil {
+	if err != nil || t.DeletedAt {
 		ctx.JSON(http.StatusNotFound, "해당하는 Todo를 찾을 수 없습니다.")
-		return
-	}
-	if t.DeletedAt.Valid {
-		ctx.JSON(http.StatusBadRequest, "이미 삭제된 Todo입니다.")
 		return
 	}
 	if err := h.Services.Todos.Delete(ctx, t); err != nil {
