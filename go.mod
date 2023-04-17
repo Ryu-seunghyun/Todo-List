@@ -2,6 +2,8 @@ module github.com/Ryu-seunghyun/Todo-List
 
 go 1.20
 
+replace github.com/Ryu-seunghyun/Todo-List => ./
+
 require (
 	github.com/google/uuid v1.1.2
 	github.com/joho/godotenv v1.5.1
