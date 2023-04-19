@@ -2,16 +2,11 @@ name: todo-cicd
 on:
   push:
     branches: [ main, refactor/feature ]
+environment: todo
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v2.1.0
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       -
         name: Checkout
         uses: actions/checkout@v3
@@ -21,6 +16,18 @@ jobs:
           touch .env
           echo "${{ secrets.ENV_VARS }}" >> .env
           cat .env
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       -
         name: Build and push
         uses: docker/build-push-action@v4
