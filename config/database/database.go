@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"os"
 	"sync"
 
 	"github.com/Ryu-seunghyun/Todo-List/model/domain"
@@ -54,11 +55,11 @@ func getDSN(config Database) string {
 	config = fileConfig
 	return fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		config.User,
-		config.Password,
-		config.Host,
-		config.Port,
-		config.DatabaseName,
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_NAME"),
 	)
 }
 

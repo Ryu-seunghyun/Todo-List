@@ -2,11 +2,12 @@ module github.com/Ryu-seunghyun/Todo-List
 
 go 1.20
 
-replace github.com/Ryu-seunghyun/Todo-List => ./
+// replace github.com/Ryu-seunghyun/Todo-List => ./
 
 require (
 	github.com/google/uuid v1.1.2
-	github.com/joho/godotenv v1.5.1
+	github.com/spf13/viper v1.15.0
+	gorm.io/driver/mysql v1.5.0
 	gorm.io/gorm v1.25.0
 )
 
@@ -34,7 +35,6 @@ require (
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.15.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.9 // indirect
@@ -46,12 +46,10 @@ require (
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/mysql v1.5.0 // indirect
 )
 
 require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
-	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 )
