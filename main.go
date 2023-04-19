@@ -19,7 +19,6 @@ import (
 
 func main() {
 	config := database.Database{}
-	database.SetDefault(&config)
 	db := database.GetConnection(config)
 	database.AutoMigrate()
 
@@ -28,6 +27,8 @@ func main() {
 	service := service.NewServices(*repos)
 	handler := controllers.NewHandler(service)
 	svr := server.NewServer(handler.NewRouter())
+
+	// 싱글톤 패턴과 연관.  프로그램에서 단 하나의 인스턴스만 생성하여 전역적으로 호출(사용).
 
 	go func() {
 		if err := svr.Run(); !errors.Is(err, http.ErrServerClosed) {

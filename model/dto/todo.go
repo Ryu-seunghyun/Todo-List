@@ -5,18 +5,34 @@ import (
 	"time"
 
 	"github.com/Ryu-seunghyun/Todo-List/model/domain"
+	"github.com/google/uuid"
 )
 
+// go-playground/validator
 type Todo struct {
-	Id          uint   `json:"id"`
+	Id          string `json:"id"`
 	Description string `json:"description"`
 	Status      string `json:"status"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"last_updated_at"`
+	DeletedAt bool      `json:"-"`
 }
 
-func NewTodoFromDomain(todo domain.Todo) Todo {
+func NewDomain(t Todo) domain.Todo {
+	if t.Id == "" {
+		t.Id = uuid.New().String()
+	}
+	return domain.Todo{
+		ID:          t.Id,
+		Description: t.Description,
+		Status:      t.Status,
+		CreatedAt:   t.CreatedAt,
+		UpdatedAt:   t.UpdatedAt,
+	}
+}
+
+func NewTodo(todo domain.Todo) Todo {
 	return Todo{
 		Id:          todo.ID,
 		Description: todo.Description,
@@ -24,5 +40,6 @@ func NewTodoFromDomain(todo domain.Todo) Todo {
 
 		CreatedAt: todo.CreatedAt,
 		UpdatedAt: todo.UpdatedAt,
+		DeletedAt: todo.DeletedAt.Valid,
 	}
 }
