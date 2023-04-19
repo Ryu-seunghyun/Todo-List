@@ -2,7 +2,7 @@ name: todo-cicd
 on:
   push:
     branches:
-      - refactor/feature
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
