@@ -2,9 +2,9 @@ name: todo-cicd
 on:
   push:
     branches: [ main, refactor/feature ]
-environment: todo
 jobs:
   build:
+    environment: todo
     runs-on: ubuntu-latest
     steps:
       -
@@ -38,6 +38,7 @@ jobs:
         name: Image Tag
         run: echo ${{ github.sha }}
   deploy:
+    environment: todo
     runs-on : ubuntu-latest
     needs: build
     steps:
