@@ -68,5 +68,5 @@ jobs:
           username: ubuntu
           key: ${{ secrets.RSHKEY }}
           port: 22
-          script: "docker-compose up -d"
+          script: "sudo docker-compose up -d"
           

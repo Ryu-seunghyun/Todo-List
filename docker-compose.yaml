@@ -19,7 +19,7 @@ services:
     image: TODOIMAGE
     ports:
      - 8080:8080
-    depens_on:
+    depends_on:
      - database
     container_name: golang-api
     environment:
