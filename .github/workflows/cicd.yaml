@@ -60,7 +60,7 @@ jobs:
           target: "/home/ubuntu"
 
       - name: Load Todo Image
-        run: sed -i 's#TODOIMAGE#'"$TODOIMAGE"'#g' docker-compose.yaml
+        run: sed -i 's#TODOIMAGE#'"$TODOIMAGE"'#g' docker-compose.yaml 
 
       - name: excuting remote ssh commands using password
         uses: appleboy/ssh-action@master
