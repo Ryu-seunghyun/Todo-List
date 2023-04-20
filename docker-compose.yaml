@@ -16,7 +16,7 @@ services:
     #build:
     #  context: .
     #  dockerfile: ./Dockerfile
-    image: TODOAPP
+    image: TODOIMAGE
     ports:
      - 8080:8080
     depens_on:

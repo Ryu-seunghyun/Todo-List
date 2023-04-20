@@ -15,7 +15,6 @@ jobs:
         run: |
           touch .env
           echo "${{ secrets.ENV_VARS }}" >> .env
-          cat .env
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -43,7 +42,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - run: TAG=${{ github.sha }}
+      - run: TODOIMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IAMGE }}:${{ github.sha }}
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
         with:
@@ -53,8 +52,15 @@ jobs:
           port: 22
           source: "docker-compose.yaml"
           target: "/home/ubuntu"
-          
-      - run: sed -i "s/TAG/$TAG/g" docker-compose.yaml          
+
+      - name: Load Todo Image
+        run: sed -i "s/TODOIMAGE/$TODOIMAGE/g" docker-compose.yaml  
+
+      - name: create env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENV_VARS }}" >> .env
+
       - name: excuting remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
