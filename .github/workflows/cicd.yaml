@@ -42,8 +42,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - run: export TODOIMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:${{ github.sha }}
-
+  
       - name: create env file
         run: |
           touch .env
@@ -59,9 +58,6 @@ jobs:
           source: "docker-compose.yaml,.env"
           target: "/home/ubuntu"
 
-      - name: Load Todo Image
-        run: sed -i 's#TODOIMAGE#'"$TODOIMAGE"'#g' docker-compose.yaml 
-
       - name: excuting remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
@@ -69,4 +65,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.RSHKEY }}
           port: 22
-          script: "sudo docker-compose up -d"
+          script: |
+            export TODOIMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:${{ github.sha }}
+            run: sed -i 's#TODOIMAGE#'"$TODOIMAGE"'#g' docker-compose.yaml 
+            "sudo docker-compose up -d"
