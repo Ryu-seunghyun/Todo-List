@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/Ryu-seunghyun/Todo-List/model/domain"
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -48,11 +48,7 @@ func newConnection(config Database) *gorm.DB {
 }
 
 func getDSN(config Database) string {
-	fileConfig, err := LoadConfig()
-	if err != nil {
-		panic("Database 구성을 불러올 수 없습니다.")
-	}
-	config = fileConfig
+	LoadConfig()
 	return fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		os.Getenv("DB_USER"),
@@ -67,16 +63,23 @@ func AutoMigrate() {
 	database.AutoMigrate(&domain.Todo{})
 }
 
-func LoadConfig() (config Database, err error) {
-	viper.AddConfigPath(filePath)
-	viper.SetConfigName(fileName)
-	viper.SetConfigType(fileType)
-
-	// viper.AutomaticEnv()
-	err = viper.ReadInConfig()
+func LoadConfig() {
+	err := godotenv.Load()
 	if err != nil {
-		return config, err
+		panic("Database Config 정보를 불러올 수 없습니다.")
 	}
-	err = viper.Unmarshal(&config)
-	return config, err
 }
+
+// func LoadConfig() (config Database, err error) {
+// 	viper.AddConfigPath(filePath)
+// 	viper.SetConfigName(fileName)
+// 	viper.SetConfigType(fileType)
+
+// 	// viper.AutomaticEnv()
+// 	err = viper.ReadInConfig()
+// 	if err != nil {
+// 		return config, err
+// 	}
+// 	err = viper.Unmarshal(&config)
+// 	return config, err
+// }
