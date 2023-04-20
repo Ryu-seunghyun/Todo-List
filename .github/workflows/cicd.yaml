@@ -67,5 +67,5 @@ jobs:
           port: 22
           script: |
             export TODOIMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:${{ github.sha }}
-            run: sed -i 's#TODOIMAGE#'"$TODOIMAGE"'#g' docker-compose.yaml 
-            "sudo docker-compose up -d"
+            sed -i 's#TODOIMAGE#'"$TODOIMAGE"'#g' docker-compose.yaml 
+            sudo docker-compose up -d
