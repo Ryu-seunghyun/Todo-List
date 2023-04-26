@@ -8,4 +8,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o main
 FROM alpine
 COPY --from=builder /app/main .
 EXPOSE 8080
-ENTRYPOINT ["sh", "-c", "nohup","./main","&"]
+CMD ["nohup","./main","&"]
