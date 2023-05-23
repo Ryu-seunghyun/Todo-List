@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/Ryu-seunghyun/Todo-List/model/domain"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -48,7 +48,7 @@ func newConnection(config Database) *gorm.DB {
 }
 
 func getDSN(config Database) string {
-	LoadConfig()
+	// LoadConfig()
 	return fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		os.Getenv("DB_USER"),
@@ -63,12 +63,12 @@ func AutoMigrate() {
 	database.AutoMigrate(&domain.Todo{})
 }
 
-func LoadConfig() {
-	err := godotenv.Load()
-	if err != nil {
-		panic("Database Config 정보를 불러올 수 없습니다.")
-	}
-}
+// func LoadConfig() {
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		panic("Database Config 정보를 불러올 수 없습니다.")
+// 	}
+// }
 
 // func LoadConfig() (config Database, err error) {
 // 	viper.AddConfigPath(filePath)
