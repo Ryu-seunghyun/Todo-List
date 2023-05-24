@@ -44,5 +44,5 @@ jobs:
           k8s-url: ${{ secrets.KUBE_URL }}
           k8s-secret: ${{ secrets.SA_TOKEN }}
       - name: replace deployment image
-        run: kubectl set image deployment todo=ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ secrets.PKG_NAME }}:${{ github.sha }}
+        run: kubectl set image deployment todo todo=ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ secrets.PKG_NAME }}:${{ github.sha }}
         
