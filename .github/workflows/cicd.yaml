@@ -1,7 +1,7 @@
 name: todo-cicd
 on:
   push:
-    branches: [ main, refactor/feature ]
+    branches: [ refactor/feature ]
 jobs:
   build:
     environment: todo
